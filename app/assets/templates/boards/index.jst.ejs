@@ -1,0 +1,8 @@
+hi from boards page
+<ul>
+<% boards.each(function(board){ %>
+  <li><%= board.get('title') %></li>
+<% }) %>
+</ul>
+<br>
+<a href="#boards/new">'New Board'</button>
