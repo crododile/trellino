@@ -1,11 +1,8 @@
 Trellino.Routers.Rowter = Backbone.Router.extend({
-  initialize: function(){
-    console.log('GET ROWTY ')
-  },
-
   routes: {
     '':'boardsIndex',
     'boards/new':'boardsNew',
+    'boards/:id': 'boardsShow',
   },
 
   boardsIndex: function(){
@@ -18,19 +15,31 @@ Trellino.Routers.Rowter = Backbone.Router.extend({
     boards.fetch({
       success: function () {
         indexView.render();
-        $('#content.container').append(indexView.$el);
+        $('#content.container').html(indexView.$el);
       }
     });
 
-    indexView.render();
-    $('#content.container').append(indexView.$el);
+    this._swapView(indexView);
   },
 
   boardsNew: function(){
-    var newView = new Trellino.Views.BoardsNew()
-
+    var newView = new Trellino.Views.BoardsNew();
     newView.render();
-    $('#content.container').append(newView.$el)
+    $('#content.container').append(newView.$el);
+  },
+
+  boardsShow: function(){
+    var showView = new Trellino.Views.BoardsShow();
+    this._swapView(showView);
+  },
+
+  _swapView: function(view){
+    if(this.currentView){
+      this.currentView.remove();
+    }
+    this.currentView = view;
+    view.render();
+     $('#content.container').html(view.$el);
   }
 
 });
