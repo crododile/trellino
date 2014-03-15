@@ -34,7 +34,6 @@ Trellino.Routers.Rowter = Backbone.Router.extend({
   boardsShow: function(id){
     var board = Trellino.Collections.boards.getOrFetch(id);
 
-
    // var list = Trellino.Collections.lists.whereOrFetch({ board_id: id });
 
     //var lists = board.lists
