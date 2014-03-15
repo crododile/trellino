@@ -1,9 +1,14 @@
 window.Trellino.Views.BoardsShow = Backbone.View.extend({
   template: JST['boards/show'],
 
+  initialize: function(){
+    this.collection = window.Trellino.Collections.boards;
+    this.listenTo( this.collection, 'sync', this.render );
+    this.listenTo( this.model, 'sync', this.render );
+  },
 
   events: {
-    "click button":"addList"
+    "click button":"addList",
   },
 
   render: function(){
@@ -20,7 +25,6 @@ window.Trellino.Views.BoardsShow = Backbone.View.extend({
   },
 
   addList: function(){
-   console.log('click')
     var lForm = new window.Trellino.Views.ListsNew();
     lForm.render();
     this.$el.append(lForm)

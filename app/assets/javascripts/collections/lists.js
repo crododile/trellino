@@ -1,19 +1,11 @@
-window.Trellino.Collections.List = Backbone.Collection.extend({
-  url: "/boards/:id/lists",
+window.Trellino.Collections.Lists = Backbone.Collection.extend({
+  url: function(){
+    return this.board.url() + "/lists";
+  },
   model: Trellino.Models.List,
 
-
-  // whereOrFetch: function( options ){
-//     var found = this.where(options);
-//     if( found ) return found;
-//     var that = this;
-//     this.fetch({
-//       success: function(){
-//         return that.where(options)
-//       }
-//     });
-//   }
+  initialize: function(options){
+    this.board = options.board
+  }
 });
-
-window.Trellino.Collections.lists = new window.Trellino.Collections.List();
 

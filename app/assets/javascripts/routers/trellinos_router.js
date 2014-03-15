@@ -1,12 +1,18 @@
 Trellino.Routers.Rowter = Backbone.Router.extend({
+  initialize: function(){
+    this.boardCollection.fetch();
+  },
+
   routes: {
     '':'boardsIndex',
     'boards/new':'boardsNew',
     'boards/:id/lists/new' : 'listForm',
-    'boards/:id': 'boardsShow',
-
     'boards/:board_id/lists/:id' : 'listShow',
+    'boards/:board_id/lists/:id' : 'listShow',
+    'boards/:id': 'boardsShow',
   },
+
+  boardCollection: Trellino.Collections.boards,
 
   boardsIndex: function(){
     var boards = Trellino.Collections.boards;
@@ -32,7 +38,9 @@ Trellino.Routers.Rowter = Backbone.Router.extend({
   },
 
   boardsShow: function(id){
-    var board = Trellino.Collections.boards.getOrFetch(id);
+    var board = this.boardCollection.getOrFetch(id);
+
+
 
    // var list = Trellino.Collections.lists.whereOrFetch({ board_id: id });
 
