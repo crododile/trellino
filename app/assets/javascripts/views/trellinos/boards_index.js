@@ -21,7 +21,6 @@ window.Trellino.Views.Boards = Backbone.View.extend({
   },
 
   removeBoard: function(){
-    console.log('click')
     event.preventDefault();
     var deadBoard = this.collection.findWhere({id: parseInt(event.target.id)})
     deadBoard.destroy();

@@ -4,7 +4,7 @@ window.Trellino.Views.BoardsShow = Backbone.View.extend({
   initialize: function(){
     this.collection = window.Trellino.Collections.boards;
     this.listenTo( this.collection, 'sync change', this.render );
-    this.listenTo( this.model.lists(), 'remove', this.render );
+    this.listenTo( this.model.lists(), 'add remove', this.render );
   },
 
   events: {

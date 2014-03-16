@@ -3,6 +3,7 @@ window.Trellino.Views.ListsShow = Backbone.View.extend({
 
   initialize: function(){
     this.listenTo( this.model, 'change sync', this.render );
+    this.listenTo( this.model.cards(), 'add remove', this.render )
   },
 
   events: {

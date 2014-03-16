@@ -22,7 +22,6 @@ window.Trellino.Views.CardsNew = Backbone.View.extend({
       {
         success: function(){
           that.list.cards().add(newB);
-          that.list.trigger('sync');
         }
       }
     );
