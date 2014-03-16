@@ -1,6 +1,8 @@
 <h2 ><%= list.get('title') %> </h2>
 <ul> <% list.cards().each(function(card){ %>
-  <li> <%= card.escape('title') %> </li>
+  <li> <%= card.escape('title') %>
+  <button id='<%= card.escape('id')  %>' class='removeCard'>Delete Card</button>
+  </li>
   <% }); %>
 </ul>
 <br>

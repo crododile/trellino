@@ -7,11 +7,20 @@ window.Trellino.Views.ListsShow = Backbone.View.extend({
 
   events: {
     "click button.makeCard":"cardForm",
-    "click button.removeList":"destroy",
+    "click button.removeList":"destroyList",
+    "click button.removeCard":"destroyCard",
+  },
+
+  destroyCard: function(){
+    event.preventDefault();
+    var deadCardWalking = this.model.cards().findWhere({ id: parseInt(event.target.id) });
+
+    deadCardWalking.destroy();
+    this.render();
   },
 
 
-  destroy: function(){
+  destroyList: function(){
     this.model.destroy();
     this.remove();
   },
