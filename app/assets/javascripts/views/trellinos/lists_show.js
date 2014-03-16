@@ -2,11 +2,11 @@ window.Trellino.Views.ListsShow = Backbone.View.extend({
   template: JST['lists/show'],
 
   initialize: function(){
-    this.listenTo( this.model, 'change', this.render );
+    this.listenTo( this.model, 'change sync', this.render );
   },
 
   events: {
-    "click button.makeList":"cardForm",
+    "click button.makeCard":"cardForm",
     "click button.removeList":"destroy",
   },
 
@@ -18,9 +18,9 @@ window.Trellino.Views.ListsShow = Backbone.View.extend({
 
   cardForm: function(){
     console.log('click');
-    var newView = new Trellino.Views.cardsNew( { list: this.model } );
+    var newView = new Trellino.Views.CardsNew( { list: this.model } );
     newView.render();
-    $('.formSpot').append(newView.$el);
+    $('.formSpotCard').append(newView.$el);
   },
 
   render: function(){

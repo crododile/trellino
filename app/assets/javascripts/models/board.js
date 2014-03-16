@@ -12,6 +12,12 @@ window.Trellino.Models.Board = Backbone.Model.extend({
 
     if (jsonResp.lists){
       this.lists().set(jsonResp.lists);
+
+      this.lists().each(function(list){
+
+        list.cards().set(list.get('cards'));
+      })
+
       delete jsonResp.lists;
     }
 
