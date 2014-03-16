@@ -1,7 +1,8 @@
 hi from boards page
 <ul>
 <% boards.each(function(board){ %>
-  <li><a href="#boards/<%=board.id%>"><%=board.get('title')%></a></li>
+  <li id='<%=board.get('id')%>'><a href="#boards/<%=board.id%>"><%=board.get('title')%></a>
+  </li>
 <% }) %>
 </ul>
 <br>

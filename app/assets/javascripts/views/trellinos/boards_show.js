@@ -3,13 +3,13 @@ window.Trellino.Views.BoardsShow = Backbone.View.extend({
 
   initialize: function(){
     this.collection = window.Trellino.Collections.boards;
-    this.listenTo( this.collection, 'sync', this.render );
-    this.listenTo( this.model, 'sync change', this.render );
+    this.listenTo( this.collection, 'sync change', this.render );
+    this.listenTo( this.model.lists(), 'sync change remove', this.render );
   },
 
   events: {
     "click button.makeList":"listForm",
-    "click button.openList":"listShow"
+    "click button.openList":"listShow",
   },
 
   listForm: function(){
