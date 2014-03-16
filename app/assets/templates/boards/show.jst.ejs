@@ -1,8 +1,12 @@
 <h2><%= board.get('title') %></h2>
 <br>
-<ul><% board.lists().each( function(list){ %>
-  <li><%= list.get('title')%></li>
+<ul>
+<% board.lists().each( function(list){ %>
+  <li id='<%=list.get('id')%>'>
+    <button class='openList' id='<%=list.get('id')%>'><%= list.get('title')%>
+  </li>
   <% }) %>
 </ul>
+
 <div class='formSpot'></div>
 <button class='makeList'>Add a List</button>

@@ -6,8 +6,6 @@ Trellino.Routers.Rowter = Backbone.Router.extend({
   routes: {
     '':'boardsIndex',
     'boards/new':'boardsNew',
-    'boards/:board_id/lists/:id' : 'listShow',
-
     'boards/:id': 'boardsShow',
   },
 
@@ -43,16 +41,6 @@ Trellino.Routers.Rowter = Backbone.Router.extend({
       model: board,
     });
     this._swapView(showView);
-  },
-
-  listForm: function(){
-    var newView = new Trellino.Views.ListsNew();
-    newView.render();
-    $('#content.container').append(newView.$el);
-  },
-
-  listShow: function(){
-
   },
 
   _swapView: function(view){

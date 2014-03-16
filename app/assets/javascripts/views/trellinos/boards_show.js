@@ -9,6 +9,7 @@ window.Trellino.Views.BoardsShow = Backbone.View.extend({
 
   events: {
     "click button.makeList":"listForm",
+    "click button.openList":"listShow"
   },
 
   listForm: function(){
@@ -18,7 +19,19 @@ window.Trellino.Views.BoardsShow = Backbone.View.extend({
     $('.formSpot').append(newView.$el);
   },
 
+  listShow: function(){
+
+    var targId = parseInt(event.target.id);
+    var list = this.model.lists().where({'id': targId })[0];
+    var newView = new Trellino.Views.ListsShow({model: list});
+    newView.render();
+
+    $('li#'+targId).html(newView.$el);
+
+  },
+
   render: function(){
+
     var renderedContent = this.template({
       board: this.model,
     });
