@@ -2,8 +2,10 @@ hi from boards page
 <ul>
 <% boards.each(function(board){ %>
   <li id='<%=board.get('id')%>'><a href="#boards/<%=board.id%>"><%=board.get('title')%></a>
+    <button id='<%=board.get('id')%>' class='removeBoard'>Remove Board</button>
   </li>
 <% }) %>
 </ul>
 <br>
+
 <a href="#boards/new">New Board</button>

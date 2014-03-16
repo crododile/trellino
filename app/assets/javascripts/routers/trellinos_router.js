@@ -18,12 +18,9 @@ Trellino.Routers.Rowter = Backbone.Router.extend({
       collection: boards
     });
 
-    boards.fetch({
-      success: function () {
-        indexView.render();
-        $('#content.container').html(indexView.$el);
-      }
-    });
+    var that = this
+
+    boards.fetch();
 
     this._swapView(indexView);
   },
@@ -49,7 +46,7 @@ Trellino.Routers.Rowter = Backbone.Router.extend({
     }
     this.currentView = view;
     view.render();
-     $('#content.container').html(view.$el);
+     $('#content').html(view.$el);
   }
 
 });
