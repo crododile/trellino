@@ -4,7 +4,10 @@ window.Trellino.Collections.Boards = Backbone.Collection.extend({
 
   getOrFetch: function(id){
     var found = this.get(id)
-    if( found ) return found;
+    if( found ) {
+      found.fetch()
+      return found;
+    }
 
     var that = this
     var dummy = new Trellino.Models.Board( {id: id} );

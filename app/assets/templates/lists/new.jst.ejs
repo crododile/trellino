@@ -1,6 +1,7 @@
 <form>
   <label>List Title
+    <input type='hidden' name='list[board_id]' value='<%=board.get('id')%>'>
     <input type="text" class='listTitle' name="list[title]" placeholder="list title">
     <input type='text' class='listRank' name='list[rank]' placeholder='rank'>
-  <button class='makeList'>Add a list</button>
+  <button class='addList'>Add a list</button>
 </form>

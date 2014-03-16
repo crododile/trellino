@@ -2,7 +2,11 @@ window.Trellino.Views.ListsNew = Backbone.View.extend({
   template: JST["lists/new"],
 
   events: {
-    'click button': 'makeList'
+    'click button.addList': 'makeList'
+  },
+
+  initialize: function(options){
+    this.board = options.board;
   },
 
   makeList: function(){
@@ -12,11 +16,13 @@ window.Trellino.Views.ListsNew = Backbone.View.extend({
     newB = new window.Trellino.Models.List(
       params
     );
+
+    var that = this
     newB.save( {},
       {
         success: function(){
-          Trellino.Collections.boards.add(newB);
-          Backbone.history.navigate('', { trigger:true });
+          that.board.lists().add(newB);
+          that.board.trigger('sync');
         }
       }
     );
@@ -24,7 +30,7 @@ window.Trellino.Views.ListsNew = Backbone.View.extend({
 
 
   render: function(){
-    var renderedContent = this.template({board: this.model});
+    var renderedContent = this.template({board: this.board});
 
     this.$el.html(renderedContent);
 
