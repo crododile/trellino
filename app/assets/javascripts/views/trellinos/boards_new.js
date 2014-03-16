@@ -15,8 +15,9 @@ window.Trellino.Views.BoardsNew = Backbone.View.extend({
 
   makeBoard: function(){
     event.preventDefault();
+    var params = $(event.currentTarget.children).serializeJSON()
     newB = new window.Trellino.Models.Board(
-      { title: $('.boardTitle').val() }
+      params
     );
     newB.save( {},
       {

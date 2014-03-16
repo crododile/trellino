@@ -1,5 +1,7 @@
 <h2><%= board.get('title') %></h2>
 <br>
-<ul>
+<ul><% board.lists().each( function(list){ %>
+  <li><%= list.get('title')%></li>
+  <% }) %>
 </ul>
 <a href='#boards/:id/lists/new'>Add a List</button>
