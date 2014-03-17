@@ -1,12 +1,14 @@
 <h2><%= board.get('title') %></h2>
 <br>
-<ul>
-<% board.lists().each( function(list){ %>
-  <li id='<%=list.get('id')%>'>
-    <button class='openList' id='<%=list.get('id')%>'><%= list.get('title')%></button>
-  </li>
+<ul id='lists' class='connectedLists'>
+  <% board.lists().each( function(list){ %>
+    <li class='list_entry' id='<%=list.get('id')%>'>
+      <button class='openList' id='<%=list.get('id')%>'>
+        <%= list.get('title')%>
+      </button>
+    </li>
   <% }) %>
 </ul>
 
 <div class='formSpot'></div>
-<button class='makeList'>Add a List</button>
+<button class='makeList newList'>Add a List</button>

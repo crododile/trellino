@@ -13,10 +13,15 @@ window.Trellino.Views.BoardsShow = Backbone.View.extend({
   },
 
   listForm: function(){
-    console.log('click');
+
     var newView = new Trellino.Views.ListsNew( { board: this.model } );
+    $(event.target).addClass('disabled')
     newView.render();
-    $('.formSpot').append(newView.$el);
+
+    $('.formSpot').html(newView.$el);
+    $('input.listTitle').focus();
+
+
   },
 
   listShow: function(){
@@ -26,8 +31,11 @@ window.Trellino.Views.BoardsShow = Backbone.View.extend({
     var newView = new Trellino.Views.ListsShow({model: list});
     newView.render();
 
-    $('li#'+targId).html(newView.$el);
+    $('#lists').sortable( { connectWith: ".connectedLists"});
 
+
+    $('li#'+targId).html(newView.$el);
+    $('ul#cards').sortable( { connectWith: ".connectedCards"});
   },
 
   render: function(){

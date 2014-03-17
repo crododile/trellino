@@ -1,7 +1,6 @@
-<form>
+<form class='cardForm'>
   <label>Card Title
     <input type='hidden' name='card[list_id]' value='<%=list.get('id')%>'>
     <input type="text" class='cardTitle' name="card[title]" placeholder="card title">
     <input type='text' class='cardRank' name='card[rank]' value='<%=list.cards().length +1 %>'>
-  <button class='addCard'>Add a card</button>
 </form>

@@ -2,17 +2,23 @@ window.Trellino.Views.CardsNew = Backbone.View.extend({
   template: JST["cards/new"],
 
   events: {
-    'click button.addCard': 'makeCard'
+     'blur form.cardForm' : 'makeCard'
   },
 
   initialize: function(options){
     this.list = options.list;
   },
 
+  closeForm: function(){
+
+    this.remove();
+  },
+
   makeCard: function(){
-     console.log('click')
     event.preventDefault();
-    var params = $(event.currentTarget.children).serializeJSON()
+
+    var params = $(event.target).parent().parent().serializeJSON()
+
     newB = new window.Trellino.Models.Card(
       params
     );
@@ -22,7 +28,10 @@ window.Trellino.Views.CardsNew = Backbone.View.extend({
       {
         success: function(){
           that.list.cards().add(newB);
-        }
+        },
+        error: function(){
+           that.closeForm();
+        },
       }
     );
   },

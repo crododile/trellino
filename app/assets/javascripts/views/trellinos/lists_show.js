@@ -2,7 +2,7 @@ window.Trellino.Views.ListsShow = Backbone.View.extend({
   template: JST['lists/show'],
 
   initialize: function(){
-    this.listenTo( this.model, 'change sync', this.render );
+    this.listenTo( this.model, 'change sync remove', this.render );
     this.listenTo( this.model.cards(), 'add remove', this.render )
   },
 
@@ -22,15 +22,17 @@ window.Trellino.Views.ListsShow = Backbone.View.extend({
 
 
   destroyList: function(){
-    this.model.destroy();
-    this.remove();
+    var that = this;
+    this.model.destroy({
+    });
+   this.remove();
   },
 
   cardForm: function(){
-    console.log('click');
-    var newView = new Trellino.Views.CardsNew( { list: this.model } );
-    newView.render();
-    $('.formSpotCard').append(newView.$el);
+      var newView = new Trellino.Views.CardsNew( { list: this.model } );
+      newView.render();
+      $('div.formSpotCard.'+ this.model.get('id')).append(newView.$el);
+      $('input.cardTitle').focus();
   },
 
   render: function(){

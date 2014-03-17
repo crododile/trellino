@@ -10,6 +10,7 @@ window.Trellino.Views.ListsNew = Backbone.View.extend({
   },
 
   makeList: function(){
+
     event.preventDefault();
     var params = $( event.currentTarget.children ).serializeJSON()
     newB = new window.Trellino.Models.List(
@@ -21,7 +22,10 @@ window.Trellino.Views.ListsNew = Backbone.View.extend({
       {
         success: function(){
           that.board.lists().add(newB);
-        }
+        },
+        error: function(){
+          $('input.listTitle').animate({'border-color':'red'}) ;
+        },
       }
     );
   },
