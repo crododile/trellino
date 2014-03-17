@@ -12,6 +12,14 @@ window.Trellino.Views.ListsShow = Backbone.View.extend({
     "click button.removeCard":"destroyCard",
   },
 
+
+  setSortables: function(){
+
+    $('#lists').sortable( { connectWith: ".connectedLists" } );
+    $('ul#cards').sortable( { connectWith: ".connectedCards" } );
+  },
+
+
   destroyCard: function(){
     event.preventDefault();
     var deadCardWalking = this.model.cards().findWhere({ id: parseInt(event.target.id) });
@@ -31,7 +39,7 @@ window.Trellino.Views.ListsShow = Backbone.View.extend({
   cardForm: function(){
       var newView = new Trellino.Views.CardsNew( { list: this.model } );
       newView.render();
-      $('div.formSpotCard.'+ this.model.get('id')).append(newView.$el);
+      this.$('div.formSpotCard').append(newView.$el);
       $('input.cardTitle').focus();
   },
 
@@ -42,6 +50,8 @@ window.Trellino.Views.ListsShow = Backbone.View.extend({
     });
 
     this.$el.html(renderedContent);
+
+    this.setSortables();
 
     return this
   },

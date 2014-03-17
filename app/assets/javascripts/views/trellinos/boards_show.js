@@ -2,6 +2,7 @@ window.Trellino.Views.BoardsShow = Backbone.View.extend({
   template: JST['boards/show'],
 
   initialize: function(){
+    this.subviews = [],
     this.collection = window.Trellino.Collections.boards;
     this.listenTo( this.collection, 'sync change', this.render );
     this.listenTo( this.model.lists(), 'add remove', this.render );
@@ -21,7 +22,32 @@ window.Trellino.Views.BoardsShow = Backbone.View.extend({
     $('.formSpot').html(newView.$el);
     $('input.listTitle').focus();
 
+  },
 
+  setSortables: function(){
+
+    $('#lists').sortable( { connectWith: ".connectedLists"} );
+    $('ul#cards').sortable( { connectWith: ".connectedCards"} );
+  },
+
+
+  instantiateSubviews: function(){
+    var that = this
+    this.model.lists().forEach(function(list){
+      var newView = new Trellino.Views.ListsShow({model: list});
+      that.subviews.push(newView);
+    })
+  },
+
+  renderSubviews: function(){
+    var that  = this;
+    this.subviews.forEach(function(subV){
+      subV.render();
+      var $li = $("<li class='list_entry' id="+subV.model.id +">")
+      $li.html(subV.$el);
+
+      $('#lists').append($li);
+    })
   },
 
   listShow: function(){
@@ -31,11 +57,9 @@ window.Trellino.Views.BoardsShow = Backbone.View.extend({
     var newView = new Trellino.Views.ListsShow({model: list});
     newView.render();
 
-    $('#lists').sortable( { connectWith: ".connectedLists"});
-
-
     $('li#'+targId).html(newView.$el);
-    $('ul#cards').sortable( { connectWith: ".connectedCards"});
+
+    this.setSortables();
   },
 
   render: function(){
@@ -45,6 +69,10 @@ window.Trellino.Views.BoardsShow = Backbone.View.extend({
     });
 
     this.$el.html(renderedContent);
+
+    // this.instantiateSubviews();
+    // this.renderSubviews();
+
 
     return this
   },
