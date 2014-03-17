@@ -2,8 +2,8 @@
 <br>
 <ul id='lists' class='connectedLists'>
   <% board.lists().each( function(list){ %>
-    <li class='list_entry' id='<%=list.get('id')%>'>
-      <button class='openList' id='<%=list.get('id')%>'>
+    <li class='list_entry' data-id='<%=list.get('id')%>' data-rank='<%=list.get('rank')%>'>
+      <button class='openList'>
         <%= list.get('title')%>
       </button>
     </li>
