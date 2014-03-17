@@ -1,6 +1,6 @@
 <h2><%= list.get('title') %> </h2>
-<ul id="cards" class='connectedCards'> <% list.cards().each(function(card){ %>
-  <li class='card_entry'> <%= card.escape('title') %>
+<ul data-id="<%=list.id%>" class='connectedCards'> <% list.cards().each(function(card){ %>
+  <li class='card_entry' data-id="<%=card.escape('id')%>" data-rank="<%=card.escape('rank')%>"> <%= card.escape('title') %>
   <button id='<%= card.escape('id')  %>' class='removeCard'>Delete Card</button>
   </li>
   <% }); %>

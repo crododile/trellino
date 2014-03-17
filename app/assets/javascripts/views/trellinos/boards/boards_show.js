@@ -3,11 +3,11 @@ window.Trellino.Views.BoardsShow = Backbone.View.extend({
 
   initialize: function(){
     this.openLists = [];
-    this.subviews = [];
+    this.cardCollections = {};
     this.collection = window.Trellino.Collections.boards;
     this.listenTo( this.collection, 'sync change', this.render );
-    this.listenTo( this.model.lists(), 'add change remove', function(){ this.model.lists().sort;
-      this.render });
+    this.listenTo( this.model.lists(), 'add remove', function(){ this.model.lists().sort();
+      this.render() });
   },
 
   events: {
@@ -29,10 +29,21 @@ window.Trellino.Views.BoardsShow = Backbone.View.extend({
 
   sortStuff: function(event, ui){
     var movedUI            = ui.item;
-    var landedUI           = event.target;
+    var landedUI           = $(ui.item.parent()).data("id")
 
+    console.log(movedUI.data("id"), movedUI.data("rank"))
 
-    var movedModel         = this.model.lists().findWhere({"id": movedUI.data('id')});
+    if ( movedUI.attr("class") === "list_entry"){
+      var movedModel         = this.model.lists().findWhere({"id": movedUI.data('id')});
+    } else if ( movedUI.attr("class") === "card_entry"){
+      var fromCollection = this.model.lists().findWhere({id: $(event.target).data("id")}).cards()
+      var movedModel =  $.grep(fromCollection.models, function(e){ return e.id == movedUI.data("id"); })[0];
+      var toCollection= this.model.lists().findWhere({id: $(ui.item.parent()).data("id")}).cards()
+
+      fromCollection.remove(movedModel);
+      toCollection.add(movedModel)
+    }
+
     var newPredecessorRank = movedUI.prev().data("rank");
     var newSuccessorRank   = movedUI.next().data("rank");
 
@@ -40,14 +51,18 @@ window.Trellino.Views.BoardsShow = Backbone.View.extend({
       if ( newPredecessorRank && newSuccessorRank ){
         return ( newPredecessorRank + newSuccessorRank ) / 2.0;
       } else if ( newPredecessorRank ){
-        return newPredecessorRank + (1 - newPredecessorRank% Math.floor(newPredecessorRank) )/2
+        return newPredecessorRank + (1 - newPredecessorRank% Math.floor(newPredecessorRank) )/2.0
       } else { return newSuccessorRank / 2.0 }
     }()
 
-
     movedUI.data("rank", newRank);
 
-    movedModel.save( { rank: newRank }, { patch: true } )
+
+    if ( movedUI.attr("class") === "list_entry"){
+       movedModel.save( { rank: newRank }, { patch: true } );
+    } else if ( movedUI.attr("class") === "card_entry"){
+       movedModel.save( {list_id: landedUI, rank: newRank }, { patch: true } );
+    }
   },
 
   setSortables: function(){
@@ -84,6 +99,7 @@ window.Trellino.Views.BoardsShow = Backbone.View.extend({
 
     this.setSortables();
 
+    this.cardCollections[newView.model.id] = newView.model.cards()
 
     this.openLists.push(targId)
   },
