@@ -5,9 +5,7 @@ window.Trellino.Views.BoardsShow = Backbone.View.extend({
     this.subviews = [];
     this.collection = window.Trellino.Collections.boards;
     this.listenTo( this.collection, 'sync change', this.render );
-    this.listenTo( this.model.lists(), 'add change remove', function(){
-      this.model.lists().sort(), this.render()
-    });
+    this.listenTo( this.model.lists(), 'add change remove', this.render );
   },
 
   events: {
@@ -31,7 +29,6 @@ window.Trellino.Views.BoardsShow = Backbone.View.extend({
     var movedUI            = ui.item;
     var landedUI           = event.target;
 
-    debugger
 
     var movedModel         = this.model.lists().findWhere({"id": movedUI.data('id')});
     var newPredecessorRank = movedUI.prev().data("rank");
@@ -41,10 +38,10 @@ window.Trellino.Views.BoardsShow = Backbone.View.extend({
       if ( newPredecessorRank && newSuccessorRank ){
         return ( newPredecessorRank + newSuccessorRank ) / 2.0;
       } else if ( newPredecessorRank ){
-
-        return newPredecessorRank * 1.1
+        return newPredecessorRank + (1 - newPredecessorRank% Math.floor(newPredecessorRank) )/2
       } else { return newSuccessorRank / 2.0 }
     }()
+
 
     movedUI.data("rank", newRank);
 

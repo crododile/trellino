@@ -2,6 +2,6 @@
   <label>List Title
     <input type='hidden' name='list[board_id]' value='<%=board.get('id')%>'>
     <input type="text" class='listTitle' name="list[title]" placeholder="list title">
-    <input type='hidden' class='listRank' name='list[rank]' value='<%=board.lists().last().get("rank") + 1%>'>
+    <input type='text' class='listRank' name='list[rank]' value='<%=board.lists().length + 1%>'>
   <button class='addList'>Add a list</button>
 </form>
