@@ -50,7 +50,8 @@ window.Trellino.Views.BoardsShow = Backbone.View.extend({
         return ( newPredecessorRank + newSuccessorRank ) / 2.0;
       } else if ( newPredecessorRank ){
         return newPredecessorRank + (1 - newPredecessorRank% Math.floor(newPredecessorRank) )/2.0
-      } else { return newSuccessorRank / 2.0 }
+      } else if ( newSuccessorRank ){ return newSuccessorRank / 2.0 }
+      else return 1
     }()
 
     movedUI.data("rank", newRank);
@@ -67,7 +68,7 @@ window.Trellino.Views.BoardsShow = Backbone.View.extend({
 
   setSortables: function(){
     $('.connectedLists').sortable( { connectWith: ".connectedLists" } );
-    $('ul.connectedCards').sortable( { connectWith: ".connectedCards" } );
+    $('.connectedCards').sortable( { connectWith: ".connectedCards" } );
   },
 
   keepListsOpen: function(id){
@@ -116,7 +117,6 @@ window.Trellino.Views.BoardsShow = Backbone.View.extend({
     var that = this
 
     this.openLists.forEach(function(lid){
-      console.log(that.openLists.length, lid)
       that.keepListsOpen(lid)
     });
 

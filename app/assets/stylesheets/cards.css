@@ -16,6 +16,7 @@
 .card_placeholder {
   background-color: #909090;
   border-radius: 5px;
+
   -moz-border-radius: 5px;
 }
 
