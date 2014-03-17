@@ -14,9 +14,8 @@ window.Trellino.Views.ListsShow = Backbone.View.extend({
 
 
   setSortables: function(){
-
-    $('#lists').sortable( { connectWith: ".connectedLists" } );
-    $('ul#cards').sortable( { connectWith: ".connectedCards" } );
+    $('.connectedLists').sortable( { connectWith: ".connectedLists" } );
+    $('ul.connectedCards').sortable( { connectWith: ".connectedCards" } );
   },
 
 

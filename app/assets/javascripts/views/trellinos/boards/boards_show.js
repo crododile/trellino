@@ -6,7 +6,7 @@ window.Trellino.Views.BoardsShow = Backbone.View.extend({
     this.cardCollections = {};
     this.collection = window.Trellino.Collections.boards;
     this.listenTo( this.collection, 'sync change', this.render );
-    this.listenTo( this.model.lists(), 'add remove', function(){ this.model.lists().sort();
+    this.listenTo( this.model.lists(), 'add change remove', function(){ this.model.lists().sort();
       this.render() });
   },
 
@@ -30,8 +30,6 @@ window.Trellino.Views.BoardsShow = Backbone.View.extend({
   sortStuff: function(event, ui){
     var movedUI            = ui.item;
     var landedUI           = $(ui.item.parent()).data("id")
-
-    console.log(movedUI.data("id"), movedUI.data("rank"))
 
     if ( movedUI.attr("class") === "list_entry"){
       var movedModel         = this.model.lists().findWhere({"id": movedUI.data('id')});
@@ -63,6 +61,8 @@ window.Trellino.Views.BoardsShow = Backbone.View.extend({
     } else if ( movedUI.attr("class") === "card_entry"){
        movedModel.save( {list_id: landedUI, rank: newRank }, { patch: true } );
     }
+
+    this.setSortables();
   },
 
   setSortables: function(){
@@ -72,13 +72,12 @@ window.Trellino.Views.BoardsShow = Backbone.View.extend({
 
   keepListsOpen: function(id){
 
-
-    var list = this.model.lists().findWhere( { 'id': targId } )
+    var list = this.model.lists().findWhere( { 'id': id} )
 
     var newView = new Trellino.Views.ListsShow({model: list});
     newView.render();
 
-    $('[data-id='+targId+']').html(newView.$el);
+    $('[data-id='+id+']').html(newView.$el);
 
     this.setSortables();
 
@@ -117,7 +116,7 @@ window.Trellino.Views.BoardsShow = Backbone.View.extend({
     var that = this
 
     this.openLists.forEach(function(lid){
-      console.log(lid)
+      console.log(that.openLists.length, lid)
       that.keepListsOpen(lid)
     });
 
