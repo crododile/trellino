@@ -3,6 +3,7 @@ window.Trellino.Views.BoardsShow = Backbone.View.extend({
 
   initialize: function(){
     this.openLists = [];
+    this.subViews = [];
     this.cardCollections = {};
     this.collection = window.Trellino.Collections.boards;
     this.listenTo( this.collection, 'sync change', this.render );
@@ -13,6 +14,7 @@ window.Trellino.Views.BoardsShow = Backbone.View.extend({
   events: {
     "click button.makeList":"listForm",
     "click button.openList":"listShow",
+    "click button.hideList":"listHide",
     "sortstop":"sortStuff"
   },
 
@@ -34,9 +36,12 @@ window.Trellino.Views.BoardsShow = Backbone.View.extend({
     if ( movedUI.attr("class") === "list_entry"){
       var movedModel         = this.model.lists().findWhere({"id": movedUI.data('id')});
     } else if ( movedUI.attr("class") === "card_entry"){
+
       var fromCollection = this.model.lists().findWhere({id: $(event.target).data("id")}).cards()
-      var movedModel =  $.grep(fromCollection.models, function(e){ return e.id == movedUI.data("id"); })[0];
       var toCollection= this.model.lists().findWhere({id: $(ui.item.parent()).data("id")}).cards()
+
+      var movedModel =  $.grep(fromCollection.models, function(e){ return e.id == movedUI.data("id"); })[0];
+
 
       fromCollection.remove(movedModel);
       toCollection.add(movedModel)
@@ -71,17 +76,39 @@ window.Trellino.Views.BoardsShow = Backbone.View.extend({
     $('.connectedCards').sortable( { connectWith: ".connectedCards" } );
   },
 
-  keepListsOpen: function(id){
+  listHide: function(){
 
-    var list = this.model.lists().findWhere( { 'id': id} )
+    targId = $(event.target).parent().data("id")
+
+    for (var i = 0; i < this.openLists.length; i ++){
+      if (this.openLists[i] === targId) this.openLists.splice(i,1)
+    }
+
+    $('[data-id='+targId+']').html(" <button class='openList'>" +
+        $(event.target).parent().find('h2').text()
+      + "</button>")
+
+  },
+
+  keepListsOpen: function(targId){
+
+    var list = this.model.lists().findWhere( { 'id': targId} )
 
     var newView = new Trellino.Views.ListsShow({model: list});
     newView.render();
 
-    $('[data-id='+id+']').html(newView.$el);
+    this.subViews.push(newView);
+
+    $('.list_entry[data-id='+targId+']').html(newView.$el);
+    //make button, set class, set text
+
+    var $button = $('<button>',{
+      text: 'hide',
+      class: 'hideList'
+    })
+    $('.list_entry[data-id='+targId+']').append($button);
 
     this.setSortables();
-
   },
 
 
@@ -95,9 +122,18 @@ window.Trellino.Views.BoardsShow = Backbone.View.extend({
     var newView = new Trellino.Views.ListsShow({model: list});
     newView.render();
 
-    $('[data-id='+targId+']').html(newView.$el);
+    $('.list_entry[data-id='+targId+']').html(newView.$el);
+       //make button, set class, set text
+       var $button = $('<button>',{
+         text: 'hide',
+         class: 'hideList'
+       })
+    $('.list_entry[data-id='+targId+']').append($button);
+
 
     this.setSortables();
+
+    this.subViews.push(newView);
 
     this.cardCollections[newView.model.id] = newView.model.cards()
 
@@ -106,13 +142,17 @@ window.Trellino.Views.BoardsShow = Backbone.View.extend({
 
   render: function(){
 
+    this.subViews.forEach(function(view){
+      view.remove();
+    })
+
+    this.subViews = [];
+
     var renderedContent = this.template({
       board: this.model,
     });
 
-
     this.$el.html(renderedContent);
-
 
     var that = this
 
@@ -126,24 +166,3 @@ window.Trellino.Views.BoardsShow = Backbone.View.extend({
   },
 
 });
-
-
-
-// instantiateSubviews: function(){
-//   var that = this
-//   this.model.lists().forEach(function(list){
-//     var newView = new Trellino.Views.ListsShow({model: list});
-//     that.subviews.push(newView);
-//   })
-// },
-//
-// renderSubviews: function(){
-//   var that  = this;
-//   this.subviews.forEach(function(subV){
-//     subV.render();
-//     var $li = $("<li class='list_entry' id="+subV.model.id +">")
-//     $li.html(subV.$el);
-//
-//     $('#lists').append($li);
-//   })
-// },
