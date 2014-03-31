@@ -8,7 +8,7 @@ development:
   
   production:
     adapter: postgresql
-    database: db/production
+    database: trellino_production
     pool: 5
     timeout: 5000
   
