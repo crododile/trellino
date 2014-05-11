@@ -10,7 +10,6 @@ window.Trellino.Views.CardsNew = Backbone.View.extend({
   },
 
   closeForm: function(){
-
     this.remove();
   },
 
@@ -30,6 +29,7 @@ window.Trellino.Views.CardsNew = Backbone.View.extend({
           that.list.cards().add(newB);
         },
         error: function(){
+			$('button.makeCard').show();
            that.closeForm();
         },
       }

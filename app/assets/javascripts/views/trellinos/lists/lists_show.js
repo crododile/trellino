@@ -36,6 +36,7 @@ window.Trellino.Views.ListsShow = Backbone.View.extend({
   },
 
   cardForm: function(){
+	  $('button.makeCard').hide();
       var newView = new Trellino.Views.CardsNew( { list: this.model } );
       newView.render();
       this.$('div.formSpotCard').append(newView.$el);
